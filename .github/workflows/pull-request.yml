@@ -52,5 +52,7 @@ jobs:
           -H "Content-type: application/json" \
           --data "{
             \"channel\": \"#pr\",
-            \"text\": \"Hola desde GitHub Actions\"
+              \"title\": \"PR #$PR_NUMBER - $PR_TITLE\",
+              \"title_link\": \"$PR_URL\",
+              \"text\": \"$MESSAGE $STATUS_EMOJI\"
           }"
