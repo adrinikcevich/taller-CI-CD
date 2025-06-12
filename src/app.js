@@ -14,7 +14,7 @@ const USERS = [
 ];
 
 function getAllUsers() {
-  return USERS;
+  return [...USERS,{id:10, name:'a'}];
 }
 
 function getEvenUsers() {
