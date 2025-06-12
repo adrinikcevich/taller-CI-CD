@@ -30,10 +30,20 @@ function getUser(id) {
 }
 
 app.get('/users', (req, res) => {
-  const users = req.query.even ? [...getEvenUsers(),{id:11, name:'juan'}] : req.query.odd ? getOddUsers() : getAllUsers();
+  const users = getAllUsers();
   res.json(users);
 });
 
+app.get('/users/odd', (req, res) => {
+  const users = getOddUsers();
+  res.json(users);
+});
+
+
+app.get('/users/even', (req, res) => {
+  const users = getEvenUsers();
+  res.json(users);
+});
 
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
