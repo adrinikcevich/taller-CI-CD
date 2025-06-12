@@ -30,7 +30,7 @@ function getUser(id) {
 }
 
 app.get('/users', (req, res) => {
-  const users = req.query.even ? [...getEvenUsers(),{id:10, name:'juan'}] : req.query.odd ? getOddUsers() : getAllUsers();
+  const users = req.query.even ? [...getEvenUsers(),{id:11, name:'juan'}] : req.query.odd ? getOddUsers() : getAllUsers();
   res.json(users);
 });
 
