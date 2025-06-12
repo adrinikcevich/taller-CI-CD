@@ -27,24 +27,15 @@ jobs:
           NODE_ENV: test
 
       - name: Notify Slack on success
-        uses: Gamesight/slack-workflow-status@master
-        if: success()
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
-          include_commit_message: true
-          include_jobs: true
-          text: "Tests passed successfully. Initiating deployment"
-
-      - name: Notify Slack on failure
-        uses: Gamesight/slack-workflow-status@master
-        if: failure()
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
-          include_commit_message: true
-          include_jobs: true
-          text: "Tests failed. Stopping deployment"
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Notifications
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: Tests passed successfully. Deploy triggered.
+          SLACK_MESSAGE_ON_SUCCESS: Tests passed successfully. Deploy triggered.
+          SLACK_MESSAGE_ON_FAILURE: Tests failed. Deploy not triggered.
+          SLACK_MESSAGE_ON_CANCEL: Job cancelled. Deploy not triggered.
 
       - name: Deploy to Render
         if: success()
