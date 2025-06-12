@@ -51,6 +51,6 @@ jobs:
           -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
           -H "Content-type: application/json" \
           --data "{
-            \"channel\": \"#otro-canal\",
+            \"channel\": \"#pr\",
             \"text\": \"Hola desde GitHub Actions\"
           }"
