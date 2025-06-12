@@ -18,7 +18,7 @@ function getAllUsers() {
 }
 
 function getEvenUsers() {
-  return USERS.filter((user) => user.id % 2 === 0);
+  return USERS.filter((user) => user.id % 2 === 1);
 }
 
 function getOddUsers() {
