@@ -3,11 +3,9 @@ name: CI/CD Pipeline - Deployment
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build-and-test:
+  test-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,38 +21,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
+      - name: Run all tests
         run: npm test
         env:
           NODE_ENV: test
 
-      - name: Notify Slack on Success
-        if: success()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,workflow,job,took
-          text: ":white_check_mark: La ejecución del workflow fue exitosa. Todos los pasos se completaron correctamente."
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        continue-on-error: true
-
-      - name: Notify Slack on Failure
-        if: failure()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,workflow,job,took
-          text: ":x: La ejecución del workflow falló. Por favor, revise los logs para más detalles."
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        continue-on-error: true
-
-
-      - name: Slack Workflow Notification
+      - name: Notify Slack on success
         uses: Gamesight/slack-workflow-status@master
+        if: success()
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
           slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
           include_commit_message: true
           include_jobs: true
+          text: "Tests passed successfully. Initiating deployment"
+
+      - name: Notify Slack on failure
+        uses: Gamesight/slack-workflow-status@master
+        if: failure()
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
+          include_commit_message: true
+          include_jobs: true
+          text: "Tests failed. Stopping deployment"
+
+      - name: Deploy to Render
+        if: success()
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          echo "Deploy triggered in Render."
