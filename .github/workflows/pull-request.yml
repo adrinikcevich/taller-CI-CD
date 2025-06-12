@@ -32,6 +32,7 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_URL: ${{ github.event.pull_request.html_url }}
           JOB_STATUS: ${{ job.status }}
+          WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           STATUS_EMOJI=""
           MESSAGE=""
@@ -48,11 +49,10 @@ jobs:
           fi
 
           curl -X POST -H 'Content-type: application/json' --data "{
-            \"channel\": \"#otro-canal\",
             \"attachments\": [{
-              \"color\": \"#36a64f\",
+              \"color\": \"#606060\",
               \"title\": \"PR #$PR_NUMBER - $PR_TITLE\",
               \"title_link\": \"$PR_URL\",
-              \"text\": \"$MESSAGE $STATUS_EMOJI\"
+              \"text\": \"$MESSAGE $STATUS_EMOJI\n<${WORKFLOW_URL}|View Workflow Run>\"
             }]
           }" $SLACK_WEBHOOK
