@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const USERS = [
-  { id: 1, name: 'John Anderson' },
+  { id: 1, name: 'Juan' },
   { id: 2, name: 'Jane Wilson' },
   { id: 3, name: 'Michael Brown' },
   { id: 4, name: 'Sara Davis' },
