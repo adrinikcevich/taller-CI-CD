@@ -47,12 +47,10 @@ jobs:
             MESSAGE="Job was cancelled or ended unexpectedly"
           fi
 
-          curl -X POST -H 'Content-type: application/json' --data "{
+          curl -X POST https://slack.com/api/chat.postMessage \
+          -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+          -H "Content-type: application/json" \
+          --data "{
             \"channel\": \"#otro-canal\",
-            \"attachments\": [{
-              \"color\": \"#36a64f\",
-              \"title\": \"PR #$PR_NUMBER - $PR_TITLE\",
-              \"title_link\": \"$PR_URL\",
-              \"text\": \"$MESSAGE $STATUS_EMOJI\"
-            }]
-          }" $SLACK_WEBHOOK
+            \"text\": \"Hola desde GitHub Actions\"
+          }"
