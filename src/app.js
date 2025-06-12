@@ -43,7 +43,7 @@ app.get('/users/even', (req, res) => {
 
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
-  const user = getUser(id+1);
+  const user = getUser(id);
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
