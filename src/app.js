@@ -5,7 +5,7 @@ const USERS = [
   { id: 1, name: 'John Anderson' },
   { id: 2, name: 'Jane Wilson' },
   { id: 3, name: 'Michael Brown' },
-  { id: 4, name: 'Sarah Davis' },
+  { id: 4, name: 'Sara Davis' },
   { id: 5, name: 'Robert Taylor' },
   { id: 6, name: 'Emily White' },
   { id: 7, name: 'David Miller' },
