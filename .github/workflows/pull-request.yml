@@ -3,7 +3,7 @@ name: CI - Pull Requests to Main
 on:
   pull_request:
     branches: [main]
-
+    types: [opened, reopened, synchronize]
 jobs:
   test-integration:
     runs-on: ubuntu-latest
@@ -29,7 +29,10 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_CHANNEL: 'pull-requests'
+          SLACK_CHANNEL: pr
+          SLACK_MESSAGE: |
+            PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
+          [View PR](${{ github.event.pull_request.html_url }})
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE_ON_SUCCESS: 'Integration tests passed successfully :white_check_mark:'
           SLACK_MESSAGE_ON_FAILURE: 'Integration tests failed :x:'
