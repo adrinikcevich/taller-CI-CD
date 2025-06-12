@@ -34,4 +34,4 @@ jobs:
           SLACK_MESSAGE_ON_SUCCESS: 'Integration tests passed successfully :white_check_mark:'
           SLACK_MESSAGE_ON_FAILURE: 'Integration tests failed :x:'
           SLACK_MESSAGE_ON_CANCEL: 'Job cancelled.'
-          MSG_MINIMAL: actions url,
+          MSG_MINIMAL: actions url
