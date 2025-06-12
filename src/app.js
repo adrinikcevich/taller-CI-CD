@@ -7,10 +7,6 @@ const USERS = [
   { id: 3, name: 'Michael Brown' },
   { id: 4, name: 'Sara Davis' },
   { id: 5, name: 'Robert Taylor' },
-  { id: 6, name: 'Emily White' },
-  { id: 7, name: 'David Miller' },
-  { id: 8, name: 'Jessica Moore' },
-  { id: 9, name: 'Christopher Lee' },
 ];
 
 function getAllUsers() {
@@ -47,13 +43,25 @@ app.get('/users/even', (req, res) => {
 
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
-  const user = getUser(id);
+  const user = getUser(id+1);
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
   res.json(user);
 });
 
+// Endpoint para la documentación de la API
+app.get('/', (req, res) => {
+  res.send(`
+    <h1>User API</h1>
+    <ul>
+      <li><b>/users</b> get all users</li>
+      <li><b>/users/odd</b> get users with odd IDs</li>
+      <li><b>/users/even</b> get users with even IDs</li>
+      <li><b>/users/:id</b> get a user by their ID</li>
+    </ul>
+  `);
+});
 module.exports = {
   app,
   USERS,
