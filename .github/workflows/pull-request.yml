@@ -25,16 +25,34 @@ jobs:
         run: npm run test:integration
 
       - name: Notify Slack
-        if: always() 
-        uses: rtCamp/action-slack-notify@v2
+        if: always()
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_CHANNEL: pr
-          SLACK_MESSAGE: |
-            PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
-          [View PR](${{ github.event.pull_request.html_url }})
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE_ON_SUCCESS: 'Integration tests passed successfully :white_check_mark:'
-          SLACK_MESSAGE_ON_FAILURE: 'Integration tests failed :x:'
-          SLACK_MESSAGE_ON_CANCEL: 'Job cancelled.'
-          MSG_MINIMAL: actions url
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_PR }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          JOB_STATUS: ${{ job.status }}
+          WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          STATUS_EMOJI=""
+          MESSAGE=""
+
+          if [ "$JOB_STATUS" == "success" ]; then
+            STATUS_EMOJI=":white_check_mark:"
+            MESSAGE="Integration tests passed successfully"
+          elif [ "$JOB_STATUS" == "failure" ]; then
+            STATUS_EMOJI=":x:"
+            MESSAGE="Integration tests failed"
+          else
+            STATUS_EMOJI=":warning:"
+            MESSAGE="Job was cancelled or ended unexpectedly"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' --data "{
+            \"attachments\": [{
+              \"color\": \"#606060\",
+              \"title\": \"PR #$PR_NUMBER - $PR_TITLE\",
+              \"title_link\": \"$PR_URL\",
+              \"text\": \"$MESSAGE $STATUS_EMOJI\n<${WORKFLOW_URL}|View Workflow Run>\"
+            }]
+          }" $SLACK_WEBHOOK

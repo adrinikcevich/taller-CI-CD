@@ -30,7 +30,7 @@ jobs:
         if: always() 
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_DEPLOYMENT }}
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE_ON_SUCCESS: 'Tests passed successfully. Deploy triggered :rocket:'
           SLACK_MESSAGE_ON_FAILURE: 'Tests failed. Deploy not triggered :x:'
