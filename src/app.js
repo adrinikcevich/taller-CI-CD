@@ -10,7 +10,7 @@ const USERS = [
 ];
 
 function getAllUsers() {
-  return USERS[0];
+  return USERS;
 }
 
 function getEvenUsers() {
