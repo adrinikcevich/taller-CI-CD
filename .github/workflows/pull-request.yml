@@ -27,7 +27,7 @@ jobs:
       - name: Notify Slack
         if: always()
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_PR }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_URL: ${{ github.event.pull_request.html_url }}
@@ -47,12 +47,12 @@ jobs:
             MESSAGE="Job was cancelled or ended unexpectedly"
           fi
 
-          curl -X POST https://slack.com/api/chat.postMessage \
-          -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
-          -H "Content-type: application/json" \
-          --data "{
-            \"channel\": \"#pr\",
+          curl -X POST -H 'Content-type: application/json' --data "{
+            \"channel\": \"#otro-canal\",
+            \"attachments\": [{
+              \"color\": \"#36a64f\",
               \"title\": \"PR #$PR_NUMBER - $PR_TITLE\",
               \"title_link\": \"$PR_URL\",
               \"text\": \"$MESSAGE $STATUS_EMOJI\"
-          }"
+            }]
+          }" $SLACK_WEBHOOK
