@@ -42,7 +42,7 @@ app.get('/users/even', (req, res) => {
 });
 
 app.get('/users/:id', (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const user = getUser(id);
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
@@ -50,10 +50,10 @@ app.get('/users/:id', (req, res) => {
   res.json(user);
 });
 
-// Endpoint para la documentación de la API
+
 app.get('/', (req, res) => {
   res.send(`
-    <h1>User API</h1>
+    <h1>Users API</h1>
     <ul>
       <li><b>/users</b> get all users</li>
       <li><b>/users/odd</b> get users with odd IDs</li>
