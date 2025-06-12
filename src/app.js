@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const USERS = [
-  { id: 1, name: 'John Anderson' },
+  { id: 1, name: 'Juan' },
   { id: 2, name: 'Jane Wilson' },
   { id: 3, name: 'Michael Brown' },
   { id: 4, name: 'Sara Davis' },
@@ -18,7 +18,7 @@ function getAllUsers() {
 }
 
 function getEvenUsers() {
-  return USERS.filter((user) => user.id % 2 === 1);
+  return USERS.filter((user) => user.id % 2 === 0);
 }
 
 function getOddUsers() {
