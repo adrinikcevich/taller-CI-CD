@@ -23,3 +23,15 @@ jobs:
 
       - name: Run integration tests
         run: npm run test:integration
+
+      - name: Notify Slack
+        if: always() 
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: 'pull-requests'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE_ON_SUCCESS: 'Integration tests passed successfully :white_check_mark:'
+          SLACK_MESSAGE_ON_FAILURE: 'Integration tests failed :x:'
+          SLACK_MESSAGE_ON_CANCEL: 'Job cancelled.'
+          MSG_MINIMAL: actions url
