@@ -8,16 +8,16 @@ describe('User Routes - Integration Tests', () => {
         expect(Array.isArray(res.body)).toBe(true)
     })
 
-    it('GET /users?even=true -> should return even users', async () => {
-        const res = await request(app).get('/users?even=true')
+    it('GET /users/even -> should return even users', async () => {
+        const res = await request(app).get('/users/even')
         expect(res.statusCode).toBe(200)
         res.body.forEach((user) => {
             expect(user.id % 2).toBe(0)
         })
     })
 
-    it('GET /users?odd=true -> should return odd users', async () => {
-        const res = await request(app).get('/users?odd=true')
+    it('GET /users/odd -> should return odd users', async () => {
+        const res = await request(app).get('/users/odd')
         expect(res.statusCode).toBe(200)
         res.body.forEach((user) => {
             expect(user.id % 2).toBe(1)
